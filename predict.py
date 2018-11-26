@@ -12,7 +12,7 @@ import seaborn as sns
 plt.style.use('seaborn-whitegrid')
 
 # read data in pandas dataframe
-df_train = pd.read_csv('../input/train.csv', nrows=2_000_000, parse_dates=["pickup_datetime"])
+df_train = pd.read_csv('train.csv', nrows=2_000_000, parse_dates=["pickup_datetime"])
 
 # list first few rows (datapoints)
 df_train.head()
@@ -39,7 +39,7 @@ df_train = df_train.dropna(how='any', axis='rows')
 print('New size: %d' % len(df_train))
 
 # read data in pandas dataframe
-df_test = pd.read_csv('../input/test.csv')
+df_test = pd.read_csv('test.csv')
 df_test.head(5)
 
 df_test.describe()
@@ -63,11 +63,11 @@ def select_within_boundingbox(df, BB):
 
 # load image of NYC map
 BB = (-74.5, -72.8, 40.5, 41.8)
-nyc_map = plt.imread('https://aiblog.nl/download/nyc_-74.5_-72.8_40.5_41.8.png')
+nyc_map = plt.imread('map.png')
 
 # load extra image to zoom in on NYC
 BB_zoom = (-74.3, -73.7, 40.5, 40.9)
-nyc_map_zoom = plt.imread('https://aiblog.nl/download/nyc_-74.3_-73.7_40.5_40.9.png')
+nyc_map_zoom = plt.imread('map2.png')
 
 print('Old size: %d' % len(df_train))
 df_train = df_train[select_within_boundingbox(df_train, BB)]
@@ -114,7 +114,7 @@ plot_hires(df_train, (-74, -73.95, 40.7, 40.8))
 
 # read nyc mask and turn into boolean map with
 # land = True, water = False
-nyc_mask = plt.imread('https://aiblog.nl/download/nyc_mask-74.5_-72.8_40.5_41.8.png')[:, :, 0] > 0.9
+nyc_mask = plt.imread('map3.png')[:, :, 0] > 0.9
 
 plt.figure(figsize=(8, 8))
 plt.imshow(nyc_map, zorder=0)
@@ -146,7 +146,7 @@ def remove_datapoints_from_water(df):
 
     # read nyc mask and turn into boolean map with
     # land = True, water = False
-    nyc_mask = plt.imread('https://aiblog.nl/download/nyc_mask-74.5_-72.8_40.5_41.8.png')[:, :, 0] > 0.9
+    nyc_mask = plt.imread('map4.png')[:, :, 0] > 0.9
 
     # calculate for each lon,lat coordinate the xy coordinate in the mask map
     pickup_x, pickup_y = lonlat_to_xy(df.pickup_longitude, df.pickup_latitude,
